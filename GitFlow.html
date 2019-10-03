@@ -1,0 +1,92 @@
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <title>GitFlow</title>
+</head>
+
+<body translate="no">
+      <p>As designed by Vincent Driessen on <a href="https://nvie.com/posts/a-successful-git-branching-model/">A Successful Git Branching Model</a></p>
+      <div id="graph-container">
+            <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
+            <script id="rendered-js">
+
+                  var branchesOrder = ['master', 'hotfix', 'release', 'develop', 'feature-1', 'feature-2'];
+                  var compareBranchesOrder = function (a, b) {
+                        return branchesOrder.indexOf(a) - branchesOrder.indexOf(b);
+                  };
+                  var withoutHash = GitgraphJS.templateExtend("blackarrow", {
+                        commit: {
+                              message: {
+                                    displayHash: false,
+                                    displayAuthor: false
+                              },
+                        },
+                  });
+
+                  const graphContainer = document.getElementById("graph-container");
+
+                  // Instantiate the graph.
+                  const gitgraph = GitgraphJS.createGitgraph(graphContainer, {
+                        orientation: 'vertical-reverse',
+                        //mode: 'compact',
+                        template: withoutHash,
+                        compareBranchesOrder: compareBranchesOrder
+                  });
+
+                  // Simulate git commands with Gitgraph API.
+                  const master = gitgraph.branch("master");
+                  master.commit("Initial commit").tag("0.1");
+
+                  const develop = gitgraph.branch("develop");
+                  develop.commit("Create develop branch");
+                  develop.commit("");
+                  develop.commit("");
+
+                  const feature1 = gitgraph.branch("feature-1");
+                  feature1.commit("Feature for future release")
+                  const feature2 = gitgraph.branch("feature-2");
+                  feature2.commit("Major feature for next release");
+                  feature1.commit("");
+                  develop.commit("");
+
+                  // Branch the hotfix branch from master
+                  const hotfix = gitgraph.branch("hotfix");
+                  hotfix.commit("Severe bug fixed for production: hotfix v0.2");
+                  // Merge hotfix back to master and develop
+                  master.merge(hotfix).tag("0.2");
+                  develop.merge(hotfix, "Incorporate bugfix in develop");
+
+                  // Create Release branch
+                  const release = gitgraph.branch("release");
+                  release.commit("Start of release branch for 1.0")
+                  release.commit("");
+
+                  // Continue work on future release
+                  feature2.commit("");
+
+                  // From this point on, "next release" means the release after 1.0
+                  //release.merge(develop);
+                  develop.merge(release);
+                  feature1.merge(develop);
+
+                  //Continue work on "next release"
+                  feature1.commit("")
+
+                  release.commit("Only bugfixes here");
+                  release.commit("Release 1.0 ready for production")
+                  develop.merge(release);
+                  master.merge(release).tag("1.0");
+
+                  feature1.commit("");
+                  feature2.commit("");
+
+                  develop.merge(feature1);
+                  develop.merge(feature2);
+
+                  release.commit("Release 1.1 ready for production")
+                  develop.merge(release);
+                  master.merge(release).tag("1.1");
+            </script>
+</body>
+</html>
