@@ -1,8 +1,34 @@
+## Getting Started
 
+## Running Locally
+
+## Contributing
+
+### [Contributing Guide][contributing]
+
+Read our [contributing guide][contributing] to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to GitGraph.js.
+
+### [Good First Issues][good-first-issues]
+
+To help you get your feet wet and get you familiar with our contribution process, we have a list of [good first issues][good-first-issues] that contain bugs which have a relatively limited scope. This is a great place to get started.
+
+## Versioning
+
+We use [SemVer][semver] as a guideline for our versioning here.
+
+Releases use the following format:
+
+```
+<major>.<minor>.<patch>
+```
+
+- Breaking changes bump `<major>` (and reset `<minor>` & `<patch>`)
+- Backward compatible changes bump `<minor>` (and reset `<patch>`)
+- Bug fixes bump `<patch>`
 
 ## Authors and contributors
 
-**Patrick Gardella** - [@nicoespeon](https://twitter.com/nicoespeon)
+**Patrick Gardella** - [GitHub](https://github.com/patrickgardella)
 
 ## Copyright and License
 
